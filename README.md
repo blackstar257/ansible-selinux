@@ -30,21 +30,21 @@ Configure SELinux in permissive mode.
 ```
 - hosts: all
   roles:
-    - { role: kbrebanov.selinux }
+    - { role: blackstar257.selinux }
 ```
 
 Disable SELinux
 ```
 - hosts: all
   roles:
-    - { role: kbrebanov.selinux, selinux_state: disabled }
+    - { role: blackstar257.selinux, selinux_state: disabled }
 ```
 
 Configure SELinux to use mls policy and enforcing mode
 ```
 - hosts: all
   roles:
-    - { role: kbrebanov.selinux, selinux_policy: mls, selinux_state: enforcing}
+    - { role: blackstar257.selinux, selinux_policy: mls, selinux_state: enforcing}
 ```
 
 License
@@ -56,3 +56,4 @@ Author Information
 ------------------
 
 Kevin Brebanov
+Forked by Blackstar
