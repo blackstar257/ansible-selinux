@@ -2,6 +2,7 @@ selinux
 =======
 
 [![Ansible Role](https://img.shields.io/ansible/role/3289.svg)](https://galaxy.ansible.com/list#/roles/3289)
+[![Build Status](https://travis-ci.org/blackstar257/ansible-selinux.svg?branch=master)](https://travis-ci.org/blackstar257/ansible-selinux)
 
 Configures SELinux.
 
@@ -55,5 +56,5 @@ BSD
 Author Information
 ------------------
 
-Kevin Brebanov
+Original Owner Kevin Brebanov
 Forked by Blackstar
