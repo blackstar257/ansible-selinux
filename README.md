@@ -1,7 +1,7 @@
 selinux
 =======
 
-[![Ansible Role](https://img.shields.io/ansible/role/3289.svg)](https://galaxy.ansible.com/list#/roles/3289)
+[![Ansible Role](https://img.shields.io/badge/role-blackstar257.selinux-blue.svg)](https://galaxy.ansible.com/blackstar257/selinux/)
 [![Build Status](https://travis-ci.org/blackstar257/ansible-selinux.svg?branch=master)](https://travis-ci.org/blackstar257/ansible-selinux)
 
 Configures SELinux.
