@@ -12,7 +12,7 @@
   register: rpm_check_python
   failed_when: false
   changed_when: no
-  when: rpm_check.stdout.find('is not installed') != -1
+  when: rpm_check.stdout.find('is installed') != -1
 
 - name: Install libselinux-python bindings
   yum: name=libselinux-python state=present
