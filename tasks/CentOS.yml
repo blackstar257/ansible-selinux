@@ -21,4 +21,4 @@
 - name: Set SELinux policy and state
   selinux: policy={{ selinux_policy }} state={{ selinux_state }}
   tags: selinux
-  when: rpm_check.stdout.find('is not installed') != -1
+  when: rpm_check.stdout.find('is not installed') != 1
