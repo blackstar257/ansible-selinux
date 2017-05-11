@@ -1,5 +1,5 @@
 ---
-# tasks file for selinux (CentOS specific)
+# tasks file for selinux (CentOS and RedHat specific)
 
 - name: Check if selinux-policy is installed
   command: rpm -q selinux-policy
