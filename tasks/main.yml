@@ -6,7 +6,7 @@
   tags: selinux
 
 - include: CentOS.yml
-  when: ansible_distribution == "CentOS"
+  when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
   tags: selinux
 
 - include: Ubuntu.yml
