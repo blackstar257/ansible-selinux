@@ -20,10 +20,10 @@ jobs:
   ubuntu-bionic:
     <<: *build_defaults
     docker:
-      - image: ubuntu:18.04
+      - image: google/cloud-sdk:latest
   ubuntu-xenial:
     docker:
-      - image: ubuntu:16.04
+      - image: google/cloud-sdk:latest
     <<: *build_defaults
 
 workflows:
