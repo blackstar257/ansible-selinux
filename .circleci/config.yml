@@ -21,9 +21,19 @@ jobs:
     <<: *build_defaults
     docker:
       - image: google/cloud-sdk:latest
+        environment:
+          distribution: ubuntu # phusion/baseimage
+          version: 18.04
+          init: /sbin/my_init
+          run_opts: ""
   ubuntu-xenial:
     docker:
       - image: google/cloud-sdk:latest
+        environment:
+          distribution: ubuntu
+          version: 16.04
+          init: /sbin/init
+          run_opts: ""
     <<: *build_defaults
 
 workflows:
