@@ -1,0 +1,38 @@
+version: 2.1
+
+build_defaults: &build_defaults
+  executor: node-executor
+  steps:
+    - checkout
+    - run: docker build --rm=true --file=tests/Dockerfile.${distribution}-${version} --tag=${distribution}-${version}:ansible tests
+    - run: container_id=$(mktemp)
+    - run: docker run --detach --volume="${PWD}":/etc/ansible/roles/role_under_test:ro ${run_opts} ${distribution}-${version}:ansible "${init}" > "${container_id}"
+    - run: docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml --syntax-check
+    - run: docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml
+    - run: |
+        docker exec "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml
+        | grep -q 'changed=0.*failed=0'
+        && (echo 'Idempotence test: pass' && exit 0)
+        || (echo 'Idempotence test: fail' && exit 1)
+
+executors:
+  ubuntu-bionic:
+    docker:
+      - image: ubuntu:18.04
+
+  ubuntu-xenial:
+    docker:
+      - image: ubuntu:16.04
+
+jobs:
+  ubuntu-bionic:
+    <<: *build_defaults
+  ubuntu-xenial:
+    <<: *build_defaults
+
+workflows:
+  version: 2.1
+  workflow:
+    jobs:
+      - ubuntu-bionic
+      - ubuntu-xenial
