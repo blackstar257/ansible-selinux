@@ -1,7 +1,6 @@
 version: 2.1
 
 build_defaults: &build_defaults
-  executor: node-executor
   steps:
     - checkout
     - run: docker build --rm=true --file=tests/Dockerfile.${distribution}-${version} --tag=${distribution}-${version}:ansible tests
@@ -15,19 +14,14 @@ build_defaults: &build_defaults
         && (echo 'Idempotence test: pass' && exit 0)
         || (echo 'Idempotence test: fail' && exit 1)
 
-executors:
-  ubuntu-bionic:
-    docker:
-      - image: ubuntu:18.04
-
-  ubuntu-xenial:
-    docker:
-      - image: ubuntu:16.04
-
 jobs:
   ubuntu-bionic:
     <<: *build_defaults
+    docker:
+      - image: ubuntu:18.04
   ubuntu-xenial:
+    docker:
+      - image: ubuntu:16.04
     <<: *build_defaults
 
 workflows:
