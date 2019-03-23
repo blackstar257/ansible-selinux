@@ -3,6 +3,8 @@ version: 2.1
 build_defaults: &build_defaults
   steps:
     - checkout
+    - setup_remote_docker:
+        docker_layer_caching: true
     - run: docker build --rm=true --file=tests/Dockerfile.${distribution}-${version} --tag=${distribution}-${version}:ansible tests
     - run: container_id=$(mktemp)
     - run: docker run --detach --volume="${PWD}":/etc/ansible/roles/role_under_test:ro ${run_opts} ${distribution}-${version}:ansible "${init}" > "${container_id}"
