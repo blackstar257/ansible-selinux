@@ -1,10 +1,5 @@
 ---
 # tasks file for selinux
-
-- name: Include distribution specific variables
-  include_vars: "{{ ansible_distribution }}.yml"
-  tags: selinux
-
 - name: Include CentOS
   include_tasks: CentOS.yml
   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
