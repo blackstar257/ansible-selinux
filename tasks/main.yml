@@ -5,10 +5,7 @@
   include_vars: "{{ ansible_distribution }}.yml"
   tags: selinux
 
-- include: CentOS.yml
+- name: Include CentOS
+  include_tasks: CentOS.yml
   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
-  tags: selinux
-
-- include: Ubuntu.yml
-  when: ansible_distribution == "Ubuntu"
   tags: selinux

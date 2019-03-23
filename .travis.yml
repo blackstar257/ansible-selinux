@@ -24,7 +24,7 @@ services:
 
 before_install:
   # Customize container
-  - 'sudo docker build --rm=true --file=tests/Dockerfile.${distribution}-${version} --tag=${distribution}-${version}:ansible tests'
+  - "sudo docker build --rm=true --file=tests/Dockerfile.${distribution}-${version} --tag=${distribution}-${version}:ansible tests"
 
 script:
   - container_id=$(mktemp)
