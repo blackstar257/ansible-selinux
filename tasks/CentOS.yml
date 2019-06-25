@@ -15,14 +15,14 @@
 
 - name: Install libselinux-python bindings
   yum: 
-    name:libselinux-python 
-    state:present
+    name: libselinux-python 
+    state: present
   tags: selinux
   when: rpm_check_python.stdout.find('is not installed') != -1
 
 - name: Set SELinux policy and state
   selinux: 
-    policy: {{ selinux_policy }}
-    state: {{ selinux_state }}
+    policy: '{{ selinux_policy }}'
+    state: '{{ selinux_state }}'
   tags: selinux
   when: rpm_check.stdout.find('is not installed') != 1
