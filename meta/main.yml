@@ -12,7 +12,7 @@ galaxy_info:
       versions:
         - 6
         - 7
-  categories:
+  galaxy_tags:
     - redhat
     - selinux
     - centos

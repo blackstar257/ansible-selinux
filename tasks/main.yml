@@ -1,5 +1,5 @@
 ---
-- name: Include CentOS
-  include_tasks: CentOS.yml
+- name: Include CentOS/RedHat tasks
+  include_tasks: rhel.yml
   when: ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
   tags: ["selinux"]
