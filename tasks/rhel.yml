@@ -1,14 +1,14 @@
 ---
 - name: Grab facts about packages
   package_facts:
-    manager: "auto"
+    manager: auto
 
 - name: Install libselinux-python bindings
   yum:
     name: libselinux-python
     state: present
   tags: ["selinux"]
-  when: "'libselinux-python' not in ansible_facts.packages"
+  when: "'libselinux-python' not in ansible_facts.packages and 'selinux-policy' in ansible_facts.packages"
 
 - name: Set SELinux policy and state
   selinux:
