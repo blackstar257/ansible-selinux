@@ -3,13 +3,13 @@
   command: rpm -q selinux-policy
   register: rpm_check
   failed_when: false
-  changed_when: no
+  changed_when: false
 
 - name: Check if libselinux is installed
   command: rpm -q libselinux-python
   register: rpm_check_python
   failed_when: false
-  changed_when: no
+  changed_when: false
 
 - name: Install libselinux-python bindings
   yum:
