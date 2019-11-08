@@ -2,17 +2,34 @@
 - name: Grab facts about packages
   package_facts:
     manager: auto
+  tags: ["selinux"]
 
 - name: Install libselinux-python bindings
   yum:
     name: libselinux-python
     state: present
+  when:
+    - "'libselinux-python' not in ansible_facts.packages"
+    - "'selinux-policy' in ansible_facts.packages"
   tags: ["selinux"]
-  when: "'libselinux-python' not in ansible_facts.packages and 'selinux-policy' in ansible_facts.packages"
 
 - name: Set SELinux policy and state
   selinux:
     policy: "{{ selinux_policy }}"
     state: "{{ selinux_state }}"
-  tags: ["selinux"]
+  register: selinux_status_change
+  changed_when:
+    - selinux_status_change is changed
+    - ansible_selinux.status != 'disabled'
   when: "'selinux-policy' in ansible_facts.packages"
+  tags: ["selinux"]
+
+- name: Auto relabel files upon boot if enabled
+  file:
+    path: /.autorelabel
+    state: touch
+  when:
+    - selinux_status_change is changed
+    - selinux_relabel
+    - selinux_state != 'disabled'
+  tags: ["selinux"]

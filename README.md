@@ -11,10 +11,11 @@ This role requires Ansible 1.4 or higher.
 
 ## Role Variables
 
-| Name           | Default    | Description                                       |
-| -------------- | ---------- | ------------------------------------------------- |
-| selinux_policy | targeted   | SELinux policy type (targeted or mls)             |
-| selinux_state  | permissive | SELinux state (permissive, enforcing or disabled) |
+| Name            | Default    | Description                                       |
+| --------------- | ---------- | ------------------------------------------------- |
+| selinux_policy  | targeted   | SELinux policy type (targeted or mls)             |
+| selinux_state   | permissive | SELinux state (permissive, enforcing or disabled) |
+| selinux_relabel | true       | Auto relabel files upon boot if enabled           |
 
 ## Dependencies
 
@@ -27,7 +28,7 @@ Configure SELinux in permissive mode.
 ```yaml
 - hosts: all
   roles:
-    - { role: blackstar257.selinux }
+    - blackstar257.selinux
 ```
 
 Disable SELinux
@@ -42,12 +43,11 @@ Configure SELinux to use mls policy and enforcing mode
 
 ```yaml
 - hosts: all
+  vars:
+    selinux_policy: mls
+    selinux_state: enforcing
   roles:
-    - {
-        role: blackstar257.selinux,
-        selinux_policy: mls,
-        selinux_state: enforcing,
-      }
+    - blackstar257.selinux
 ```
 
 ## License
