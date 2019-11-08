@@ -1,3 +1,4 @@
 ---
 selinux_policy: targeted
 selinux_state: permissive
+selinux_relabel: true

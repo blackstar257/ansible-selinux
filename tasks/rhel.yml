@@ -30,4 +30,6 @@
     state: touch
   when:
     - selinux_status_change is changed
+    - selinux_relabel
+    - selinux_state != 'disabled'
   tags: ["selinux"]
