@@ -1,60 +1,60 @@
-selinux
-=======
+# Ansible Role: Selinux
 
 [![Ansible Role](https://img.shields.io/badge/role-blackstar257.selinux-blue.svg)](https://galaxy.ansible.com/blackstar257/selinux/)
 [![Build Status](https://travis-ci.org/blackstar257/ansible-selinux.svg?branch=master)](https://travis-ci.org/blackstar257/ansible-selinux)
 
 Configures SELinux.
 
-Requirements
-------------
+## Requirements
 
 This role requires Ansible 1.4 or higher.
 
-Role Variables
---------------
+## Role Variables
 
 | Name           | Default    | Description                                       |
-|----------------|------------|---------------------------------------------------|
+| -------------- | ---------- | ------------------------------------------------- |
 | selinux_policy | targeted   | SELinux policy type (targeted or mls)             |
 | selinux_state  | permissive | SELinux state (permissive, enforcing or disabled) |
 
-Dependencies
-------------
+## Dependencies
 
 None
 
-Example Playbook
-----------------
+## Example Playbook
 
 Configure SELinux in permissive mode.
-```
+
+```yaml
 - hosts: all
   roles:
     - { role: blackstar257.selinux }
 ```
 
 Disable SELinux
-```
+
+```yaml
 - hosts: all
   roles:
     - { role: blackstar257.selinux, selinux_state: disabled }
 ```
 
 Configure SELinux to use mls policy and enforcing mode
-```
+
+```yaml
 - hosts: all
   roles:
-    - { role: blackstar257.selinux, selinux_policy: mls, selinux_state: enforcing}
+    - {
+        role: blackstar257.selinux,
+        selinux_policy: mls,
+        selinux_state: enforcing,
+      }
 ```
 
-License
--------
+## License
 
 BSD
 
-Author Information
-------------------
+## Author Information
 
 Original Owner Kevin Brebanov
-Forked by Blackstar
+Forked by blackstar257

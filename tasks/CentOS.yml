@@ -1,6 +1,4 @@
 ---
-# tasks file for selinux (CentOS and RedHat specific)
-
 - name: Check if selinux-policy is installed
   command: rpm -q selinux-policy
   register: rpm_check
@@ -14,15 +12,15 @@
   changed_when: no
 
 - name: Install libselinux-python bindings
-  yum: 
-    name: libselinux-python 
+  yum:
+    name: libselinux-python
     state: present
-  tags: selinux
+  tags: ["selinux"]
   when: rpm_check_python.stdout.find('is not installed') != -1
 
 - name: Set SELinux policy and state
-  selinux: 
-    policy: '{{ selinux_policy }}'
-    state: '{{ selinux_state }}'
-  tags: selinux
+  selinux:
+    policy: "{{ selinux_policy }}"
+    state: "{{ selinux_state }}"
+  tags: ["selinux"]
   when: rpm_check.stdout.find('is not installed') != 1
