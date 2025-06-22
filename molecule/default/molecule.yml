@@ -1,29 +1,76 @@
 ---
 dependency:
   name: galaxy
+  options:
+    requirements-file: requirements.yml
+
 driver:
   name: docker
-lint:
-  name: yamllint
-  options:
-    config-file: molecule/default/yaml-lint.yml
+
 platforms:
-  - name: instance
-    image: "geerlingguy/docker-${MOLECULE_DISTRO:-centos7}-ansible:latest"
+  - name: instance-centos7
+    image: "quay.io/ansible/molecule-centos:7"
     command: ${MOLECULE_DOCKER_COMMAND:-""}
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     privileged: true
     pre_build_image: true
+    groups:
+      - selinux_hosts
+  - name: instance-rocky8
+    image: "quay.io/ansible/molecule-rockylinux:8"
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    pre_build_image: true
+    groups:
+      - selinux_hosts
+  - name: instance-rocky9
+    image: "quay.io/ansible/molecule-rockylinux:9"
+    command: ${MOLECULE_DOCKER_COMMAND:-""}
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    privileged: true
+    pre_build_image: true
+    groups:
+      - selinux_hosts
+
 provisioner:
   name: ansible
-  lint:
-    name: ansible-lint
-  playbooks:
-    converge: ${MOLECULE_PLAYBOOK:-playbook.yml}
-scenario:
-  name: default
+  config_options:
+    defaults:
+      interpreter_python: auto_silent
+      callback_whitelist: profile_tasks, timer, yaml
+      stdout_callback: yaml
+    ssh_connection:
+      pipelining: false
+  inventory:
+    group_vars:
+      selinux_hosts:
+        selinux_state: permissive
+        selinux_policy: targeted
+
 verifier:
-  name: testinfra
-  lint:
-    name: flake8
+  name: ansible
+
+lint: |
+  set -e
+  yamllint .
+  ansible-lint --force-color
+
+scenario:
+  test_sequence:
+    - dependency
+    - lint
+    - cleanup
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - side_effect
+    - verify
+    - cleanup
+    - destroy

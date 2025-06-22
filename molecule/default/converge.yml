@@ -1,0 +1,30 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  gather_facts: true
+
+  vars:
+    selinux_state: permissive
+    selinux_policy: targeted
+    selinux_relabel: true
+
+  pre_tasks:
+    - name: Update package cache (CentOS/RHEL/Rocky/Alma)
+      ansible.builtin.yum:
+        update_cache: true
+      when: ansible_os_family == "RedHat" and ansible_distribution_major_version | int <= 7
+
+    - name: Update package cache (RHEL/Rocky/Alma 8+)
+      ansible.builtin.dnf:
+        update_cache: true
+      when: ansible_os_family == "RedHat" and ansible_distribution_major_version | int >= 8
+
+  roles:
+    - role: blackstar257.selinux
+
+  post_tasks:
+    - name: Verify SELinux is configured
+      ansible.builtin.debug:
+        var: ansible_selinux
+      when: ansible_selinux is defined 

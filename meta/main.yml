@@ -1,19 +1,36 @@
 ---
-dependencies: []
+dependencies: 
+  - ansible.posix
 
 galaxy_info:
+  role_name: selinux
+  namespace: blackstar257
   author: blackstar257
-  description: Configures SELinux for RHEL/CentOS
+  description: Configures SELinux for RHEL/CentOS/Rocky/Alma Linux
   company: None
-  license: BSD
-  min_ansible_version: 1.4
+  license: MIT
+  min_ansible_version: "2.10"
+  
   platforms:
     - name: EL
       versions:
-        - 6
-        - 7
+        - "7"
+        - "8"
+        - "9"
+    - name: Fedora
+      versions:
+        - "37"
+        - "38"
+        - "39"
+        
   galaxy_tags:
     - redhat
     - selinux
     - centos
     - system
+    - security
+    - rocky
+    - alma
+    - rhel
+    - linux
+    - hardening

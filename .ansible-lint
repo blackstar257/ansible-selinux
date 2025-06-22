@@ -1,0 +1,15 @@
+---
+profile: production
+
+exclude_paths:
+  - .cache/
+  - .github/
+  - molecule/
+  - .yamllint
+
+skip_list:
+  - yaml[line-length]
+  - role-name[path]
+
+warn_list:
+  - experimental 

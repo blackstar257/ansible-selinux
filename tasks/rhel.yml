@@ -1,46 +1,72 @@
 ---
-- name: Grab facts about packages
-  package_facts:
+- name: Gather package facts
+  ansible.builtin.package_facts:
     manager: auto
   tags: ["selinux"]
 
-- name: Install libselinux-python bindings
-  yum:
-    name: libselinux-python
-    state: present
-  when:
-    - "'libselinux-python' not in ansible_facts.packages"
-    - "'selinux-policy' in ansible_facts.packages"
-    - ansible_distribution_major_version != '8'
+- name: Check if SELinux is available
+  ansible.builtin.stat:
+    path: /etc/selinux/config
+  register: selinux_config_file
   tags: ["selinux"]
 
-- name: Install python3-libselinux bindings for RHEL8
-  yum:
-    name: python3-libselinux
+- name: Install SELinux Python bindings (RHEL/CentOS 7)
+  ansible.builtin.yum:
+    name: "{{ selinux_python_packages_el7 }}"
     state: present
   when:
-    - "'python3-libselinux' not in ansible_facts.packages"
-    - "'selinux-policy' in ansible_facts.packages"
-    - ansible_distribution_major_version == '8'
+    - ansible_distribution_major_version | int <= 7
+    - selinux_config_file.stat.exists
+    - ansible_python_version is version('3', '<')
+  tags: ["selinux"]
+
+- name: Install SELinux Python3 bindings (RHEL/CentOS 8+)
+  ansible.builtin.dnf:
+    name: "{{ selinux_python_packages_el8plus }}"
+    state: present
+  when:
+    - ansible_distribution_major_version | int >= 8
+    - selinux_config_file.stat.exists
+  tags: ["selinux"]
+
+- name: Install SELinux Python bindings (Fedora)
+  ansible.builtin.dnf:
+    name: "{{ selinux_python_packages_fedora }}"
+    state: present
+  when:
+    - ansible_distribution == "Fedora"
+    - selinux_config_file.stat.exists
   tags: ["selinux"]
 
 - name: Set SELinux policy and state
-  selinux:
+  ansible.posix.selinux:
     policy: "{{ selinux_policy }}"
     state: "{{ selinux_state }}"
   register: selinux_status_change
-  changed_when:
-    - selinux_status_change is changed
-    - ansible_selinux.status != 'disabled'
-  when: "'selinux-policy' in ansible_facts.packages"
+  when: 
+    - selinux_config_file.stat.exists
+    - ansible_selinux is defined
+    - ansible_selinux.status is defined
+  notify: 
+    - reboot system
   tags: ["selinux"]
 
-- name: Auto relabel files upon boot if enabled
-  file:
+- name: Create autorelabel file when state changes
+  ansible.builtin.file:
     path: /.autorelabel
     state: touch
+    mode: '0644'
   when:
     - selinux_status_change is changed
-    - selinux_relabel
+    - selinux_relabel | bool
     - selinux_state != 'disabled'
+    - selinux_config_file.stat.exists
+  tags: ["selinux"]
+
+- name: Display SELinux status change message
+  ansible.builtin.debug:
+    msg: "SELinux configuration changed. A reboot may be required for changes to take effect."
+  when: 
+    - selinux_status_change is changed
+    - selinux_state in ['enforcing', 'permissive']
   tags: ["selinux"]

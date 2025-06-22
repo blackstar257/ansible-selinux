@@ -1,0 +1,9 @@
+---
+- name: reboot system
+  ansible.builtin.reboot:
+    reboot_timeout: 300
+    test_command: uptime
+  when: 
+    - selinux_reboot_required | default(false) | bool
+    - selinux_state != 'disabled'
+  listen: "reboot system" 
