@@ -48,10 +48,6 @@ provisioner:
         selinux_policy: targeted
 verifier:
   name: ansible
-lint: |
-  set -e
-  yamllint .
-  ansible-lint --force-color
 scenario:
   test_sequence:
     - dependency
