@@ -12,4 +12,4 @@ skip_list:
   - role-name[path]
 
 warn_list:
-  - experimental 
+  - experimental

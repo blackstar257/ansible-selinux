@@ -1,4 +1,5 @@
-- name: reboot system
+---
+- name: Reboot system
   ansible.builtin.reboot:
     reboot_timeout: 300
     test_command: uptime

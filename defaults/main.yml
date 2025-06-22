@@ -1,3 +1,4 @@
+---
 # SELinux policy type (targeted, minimum, mls)
 selinux_policy: targeted
 # SELinux state (enforcing, permissive, disabled)

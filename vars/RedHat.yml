@@ -1,3 +1,4 @@
+---
 # SELinux Python packages for different RHEL versions
 selinux_python_packages_el7:
   - libselinux-python

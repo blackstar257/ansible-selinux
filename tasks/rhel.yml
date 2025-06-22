@@ -1,3 +1,4 @@
+---
 - name: Gather package facts
   ansible.builtin.package_facts:
     manager: auto
@@ -8,7 +9,7 @@
   register: selinux_config_file
   tags: ["selinux"]
 - name: Install SELinux Python bindings (RHEL/CentOS 7)
-  ansible.builtin.yum:
+  ansible.builtin.dnf:
     name: "{{ selinux_python_packages_el7 }}"
     state: present
   when:
@@ -48,7 +49,7 @@
   ansible.builtin.file:
     path: /.autorelabel
     state: touch
-    mode: '0644'
+    mode: "0644"
   when:
     - selinux_status_change is changed
     - selinux_relabel | bool
