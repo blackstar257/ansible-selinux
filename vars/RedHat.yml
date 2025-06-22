@@ -1,13 +1,10 @@
----
 # SELinux Python packages for different RHEL versions
 selinux_python_packages_el7:
   - libselinux-python
   - libsemanage-python
-
 selinux_python_packages_el8plus:
   - python3-libselinux
   - python3-libsemanage
-
 selinux_python_packages_fedora:
   - python3-libselinux
-  - python3-libsemanage 
+  - python3-libsemanage

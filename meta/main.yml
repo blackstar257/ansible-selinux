@@ -1,7 +1,5 @@
----
-dependencies: 
+dependencies:
   - ansible.posix
-
 galaxy_info:
   role_name: selinux
   namespace: blackstar257
@@ -10,7 +8,6 @@ galaxy_info:
   company: None
   license: MIT
   min_ansible_version: "2.10"
-  
   platforms:
     - name: EL
       versions:
@@ -22,7 +19,6 @@ galaxy_info:
         - "37"
         - "38"
         - "39"
-        
   galaxy_tags:
     - redhat
     - selinux

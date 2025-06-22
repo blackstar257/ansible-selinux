@@ -1,12 +1,9 @@
----
 dependency:
   name: galaxy
   options:
     requirements-file: requirements.yml
-
 driver:
   name: docker
-
 platforms:
   - name: instance-centos7
     image: "quay.io/ansible/molecule-centos:7"
@@ -35,7 +32,6 @@ platforms:
     pre_build_image: true
     groups:
       - selinux_hosts
-
 provisioner:
   name: ansible
   config_options:
@@ -50,15 +46,12 @@ provisioner:
       selinux_hosts:
         selinux_state: permissive
         selinux_policy: targeted
-
 verifier:
   name: ansible
-
 lint: |
   set -e
   yamllint .
   ansible-lint --force-color
-
 scenario:
   test_sequence:
     - dependency

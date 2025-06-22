@@ -1,12 +1,8 @@
----
 # SELinux policy type (targeted, minimum, mls)
 selinux_policy: targeted
-
 # SELinux state (enforcing, permissive, disabled)
 selinux_state: permissive
-
 # Whether to create .autorelabel file to relabel filesystem on next boot
 selinux_relabel: true
-
 # Whether to allow automatic reboots when required for SELinux state changes
 selinux_reboot_required: false
