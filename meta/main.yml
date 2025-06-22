@@ -1,5 +1,4 @@
-dependencies:
-  - ansible.posix
+dependencies: []
 galaxy_info:
   role_name: selinux
   namespace: blackstar257
