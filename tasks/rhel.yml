@@ -11,6 +11,17 @@
   when:
     - "'libselinux-python' not in ansible_facts.packages"
     - "'selinux-policy' in ansible_facts.packages"
+    - ansible_distribution_major_version != '8'
+  tags: ["selinux"]
+
+- name: Install python3-libselinux bindings for RHEL8
+  yum:
+    name: python3-libselinux
+    state: present
+  when:
+    - "'python3-libselinux' not in ansible_facts.packages"
+    - "'selinux-policy' in ansible_facts.packages"
+    - ansible_distribution_major_version == '8'
   tags: ["selinux"]
 
 - name: Set SELinux policy and state
